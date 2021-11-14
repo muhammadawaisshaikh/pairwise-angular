@@ -64,8 +64,41 @@ export class ModelAnalysisComponent implements OnInit {
       this.error = err.error;
       console.log('Error >>>>>', err.error);
     });
+
     this.nodeNameInput = '';
     // this.getAllNodes();
+  }
+
+  deleteNode(): void {
+    let nodeIdToDelete = this.deleteNodeName;
+
+    this.pairwiseService.deleteNode(nodeIdToDelete).subscribe((res) => {
+      this.nodes = res;
+    }, (err: any) => this.error = err.error);
+
+    this.getAllNodes();
+   // this.reloadPageIfNoError();
+  }
+
+  updateNode(): void {
+    let node = new Node();
+    node.id = this.renameParentNodeId;
+    node.nodeName = this.updateNameOfNode;
+
+    this.pairwiseService.updateNode(node).subscribe((res) => {
+      this.nodes = res;
+    }, (err: any) => this.error = err.error);
+
+    this.updateNameOfNode = '';
+    this.getAllNodes();
+    //this.reloadPageIfNoError();
+  }
+
+  reloadPageIfNoError(): void {
+    this.nodes = [];
+    if (this.error === null) {
+      window.location.reload();
+    }
   }
 
 }
