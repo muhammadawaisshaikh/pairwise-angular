@@ -14,17 +14,41 @@ export class ModelAnalysisComponent implements OnInit {
   nodeNameInput: string = '';
   updateNameOfNode: string = '';
 
-  addNodeNameParent: number = 0;
-  deleteNodeName: number = 0;
-  renameParentNodeId: number = 0;
+  addNodeNameParent: any = 0;
+  deleteNodeName: any = 0;
+  renameParentNodeId: any = 0;
 
   error: any;
+
+  isDisabled: boolean = true;
 
   constructor(
     private pairwiseService: PairwiseService,
   ) { }
 
   ngOnInit(): void {
+    this.getAllNodes();
+  }
+
+  getAllNodes(): void {
+    this.nodes = [];
+
+    this.pairwiseService.getListOfNodes().subscribe((data) => {
+      data._embedded.node.forEach(element => {
+        this.nodes.push(new Node(element.id, element.nodeName, element.parentNodeId, element.value, element.children));
+      });
+
+      this.addNodeNameParent = this.nodes[0].id;
+      this.deleteNodeName = this.nodes[0].id;
+      this.renameParentNodeId = this.nodes[0].id;
+
+      if (this.nodes.length >= 4) {
+        this.isDisabled = false;
+      } else if (this.nodes.length < 4) {
+        this.isDisabled = true;
+      }
+    }, (err: any) => this.error = err.error);
+    // this.reloadPageIfNoError();
   }
 
   addNode(): void {

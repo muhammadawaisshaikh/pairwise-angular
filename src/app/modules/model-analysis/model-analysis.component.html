@@ -33,7 +33,7 @@
                                     <div class="form-group pt-3">
                                         <div class="form-floating">
                                             <select class="form-select">
-                                                <option selected>Root</option>
+                                                <!-- <option selected>Root</option> -->
                                                 <option *ngFor="let node of nodes " [ngValue]="node.id">{{node.nodeName}}</option>
                                             </select>
                                             <label>Parent Name</label>
