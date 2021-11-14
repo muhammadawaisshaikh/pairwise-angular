@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { FormsModule } from '@angular/forms';
+
 import { ModelAnalysisRoutingModule } from './model-analysis-routing.module';
 import { ModelAnalysisComponent } from './model-analysis.component';
 
@@ -10,7 +12,8 @@ import { ModelAnalysisComponent } from './model-analysis.component';
   ],
   imports: [
     CommonModule,
-    ModelAnalysisRoutingModule
+    ModelAnalysisRoutingModule,
+    FormsModule
   ]
 })
 export class ModelAnalysisModule { }
