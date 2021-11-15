@@ -32,7 +32,7 @@
 
                                     <div class="form-group pt-3">
                                         <div class="form-floating">
-                                            <select class="form-select">
+                                            <select class="form-select" [(ngModel)]='addNodeNameParent'>
                                                 <option *ngFor="let node of nodes " [ngValue]="node.id">{{node.nodeName}}</option>
                                             </select>
                                             <label>Parent Name</label>
@@ -54,13 +54,13 @@
 
                                     <div class="form-group pt-3">
                                         <div class="form-floating">
-                                            <select class="form-select">
+                                            <select class="form-select" [(ngModel)]='renameParentNodeId'>
                                                 <option *ngFor="let node of nodes " [ngValue]="node.id">{{node.nodeName}}</option>
                                             </select>
                                             <label>Name to change</label>
                                         </div>
                                         <div class="form-floating mt-3">
-                                            <input type="text" class="form-control" placeholder="New Name" />
+                                            <input type="text" class="form-control" placeholder="New Name" [(ngModel)]="updateNameOfNode" />
                                             <label class="text-danger">New Name*</label>
                                         </div>
 
@@ -76,7 +76,7 @@
 
                                     <div class="form-group pt-3">
                                         <div class="form-floating">
-                                            <select class="form-select">
+                                            <select class="form-select" [(ngModel)]='deleteNodeName'>
                                                 <option *ngFor="let node of nodes " [ngValue]="node.id">{{node.nodeName}}</option>
                                             </select>
                                             <label>Name to delete</label>
