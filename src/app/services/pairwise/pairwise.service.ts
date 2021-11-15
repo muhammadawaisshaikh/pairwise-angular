@@ -14,7 +14,7 @@ export class PairwiseService {
   private getListOfNodesUrl = 'https://pairwise-backend.herokuapp.com/nodes';
   private getTreeNodeUrl = 'https://pairwise-backend.herokuapp.com/v1/tree';
   private baseUrl = 'https://pairwise-backend.herokuapp.com/v1/pairwise';
-  private fileUpload = 'http://localhost:8081/v1/upload';
+  private fileUpload = 'https://pairwise-backend.herokuapp.com/v1/upload';
   private fileDownload = 'https://pairwise-backend.herokuapp.com/v1/example-download';
 
   constructor(
