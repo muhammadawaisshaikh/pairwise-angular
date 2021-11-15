@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Node } from 'src/app/common/node/node';
 import { PairwiseService } from 'src/app/services/pairwise/pairwise.service';
 
@@ -10,17 +11,20 @@ import { PairwiseService } from 'src/app/services/pairwise/pairwise.service';
 export class ModelAnalysisComponent implements OnInit {
 
   nodes: Node[] = [];
-
   nodeNameInput: string = '';
   updateNameOfNode: string = '';
-
   addNodeNameParent: any = 0;
   deleteNodeName: any = 0;
   renameParentNodeId: any = 0;
-
   error: any;
-
   isDisabled: boolean = true;
+
+  // file upload 
+  selectedFiles: FileList | undefined;
+  currentFile: File | undefined;
+  progress = 0;
+  message = '';
+  finalResult: any[] = [];
 
   constructor(
     private pairwiseService: PairwiseService,
@@ -99,6 +103,41 @@ export class ModelAnalysisComponent implements OnInit {
     if (this.error === null) {
       window.location.reload();
     }
+  }
+
+  selectFile(event: any) {
+    this.selectedFiles = event.target.files;
+    this.upload();
+  }
+
+  upload() {
+    this.progress = 0;
+    this.currentFile = this.selectedFiles?.item(0) as File;
+    
+    this.pairwiseService.upload(this.currentFile).subscribe(
+      (event: any) => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress = Math.round(100 * event?.loaded / event?.total);
+        } else if (event instanceof HttpResponse) {
+          this.finalResult = event.body;
+          if (event.statusText === 'OK') {
+            this.message = 'File Uploaded successfully';
+          }
+        }
+      },
+      err => {
+        if (err.statusText === 'Bad Gateway') {
+          this.message = err.body;
+          this.progress = 0;
+          this.currentFile = undefined;
+        }else{
+        this.progress = 0;
+        this.message = 'File Format is not correct';
+        this.currentFile = undefined;
+        }
+      });
+
+    this.selectedFiles = undefined;
   }
 
 }

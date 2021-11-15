@@ -6,8 +6,27 @@
                     <h5 class="pb-3 border-bottom">Import your model</h5>
 
                     <div class="form-group py-3 border-bottom">
-                        <input class="form-control" type="file" />
+                        <input class="form-control" type="file" (change)="selectFile($event)" accept=".csv" />
                     </div>
+
+                    <div class="py-3">
+                        <div *ngIf="currentFile" class="progress">
+                          <div
+                            class="progress-bar progress-bar-striped progress-bar-animated"
+                            role="progressbar"
+                            attr.aria-valuenow="{{ progress }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            [ngStyle]="{ width: progress + '%' }"
+                          >
+                            {{ progress }}%
+                          </div>
+                        </div>
+
+                        <div *ngIf="message">
+                            <span class="justify-content-center my-3"> <i>{{message}}</i></span>
+                          </div>
+                      </div>
 
                     <p class="mb-1 pt-3">Do not know how to begin? Start from example data!</p>
                     <a href="https://lillian5120.shinyapps.io/RConcluder/_w_c7d2cc6f/session/93b482af3ce4e654803d33d1ce83979f/download/downloadData?w=c7d2cc6f">
