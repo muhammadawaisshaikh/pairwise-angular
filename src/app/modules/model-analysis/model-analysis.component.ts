@@ -52,7 +52,6 @@ export class ModelAnalysisComponent implements OnInit {
         this.isDisabled = true;
       }
     }, (err: any) => this.error = err.error);
-    // this.reloadPageIfNoError();
   }
 
   addNode(): void {
@@ -70,7 +69,6 @@ export class ModelAnalysisComponent implements OnInit {
     });
 
     this.nodeNameInput = '';
-    // this.getAllNodes();
   }
 
   deleteNode(): void {
@@ -81,7 +79,7 @@ export class ModelAnalysisComponent implements OnInit {
     }, (err: any) => this.error = err.error);
 
     this.getAllNodes();
-   // this.reloadPageIfNoError();
+   this.reloadPageIfNoError();
   }
 
   updateNode(): void {
@@ -94,8 +92,6 @@ export class ModelAnalysisComponent implements OnInit {
     }, (err: any) => this.error = err.error);
 
     this.updateNameOfNode = '';
-    this.getAllNodes();
-    //this.reloadPageIfNoError();
   }
 
   reloadPageIfNoError(): void {
