@@ -18,6 +18,7 @@ export class ModelAnalysisComponent implements OnInit {
   renameParentNodeId: any = 0;
   error: any;
   isDisabled: boolean = true;
+  onDeleteRoot: boolean = false;
 
   // file upload 
   selectedFiles: FileList | undefined;
@@ -76,7 +77,11 @@ export class ModelAnalysisComponent implements OnInit {
 
     this.pairwiseService.deleteNode(nodeIdToDelete).subscribe((res) => {
       this.nodes = res;
-    }, (err: any) => this.error = err.error);
+    }, 
+    (err: any) => {
+      this.onDeleteRoot = true;
+      this.error = err.error;
+    })
 
     this.getAllNodes();
    this.reloadPageIfNoError();
@@ -134,6 +139,10 @@ export class ModelAnalysisComponent implements OnInit {
       });
 
     this.selectedFiles = undefined;
+  }
+
+  closeToast() {
+    this.onDeleteRoot = false;
   }
 
 }
