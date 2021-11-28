@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Node } from 'src/app/common/node/node';
 import { PairwiseService } from 'src/app/services/pairwise/pairwise.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-model-analysis',
@@ -16,9 +17,8 @@ export class ModelAnalysisComponent implements OnInit {
   addNodeNameParent: any = 0;
   deleteNodeName: any = 0;
   renameParentNodeId: any = 0;
-  error: any;
   isDisabled: boolean = true;
-  onDeleteRoot: boolean = false;
+  analyzeSelectedNode: number = 0;
 
   // file upload 
   selectedFiles: FileList | undefined;
@@ -29,6 +29,7 @@ export class ModelAnalysisComponent implements OnInit {
 
   constructor(
     private pairwiseService: PairwiseService,
+    private toast: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +53,9 @@ export class ModelAnalysisComponent implements OnInit {
       } else if (this.nodes.length < 4) {
         this.isDisabled = true;
       }
-    }, (err: any) => this.error = err.error);
+    }, (err: any) => {
+      this.toast.show('Error', err.error);
+    });
   }
 
   addNode(): void {
@@ -60,13 +63,10 @@ export class ModelAnalysisComponent implements OnInit {
     node.nodeName = this.nodeNameInput;
     node.parentNodeId = this.addNodeNameParent;
 
-    console.log('NodeName >>>>>', this.nodeNameInput);
-
     this.pairwiseService.addNode(node).subscribe((res) => {
       this.nodes = res;
     }, (err: any) => {
-      this.error = err.error;
-      console.log('Error >>>>>', err.error);
+      this.toast.show('Error', err.error);
     });
 
     this.nodeNameInput = '';
@@ -79,12 +79,10 @@ export class ModelAnalysisComponent implements OnInit {
       this.nodes = res;
     }, 
     (err: any) => {
-      this.onDeleteRoot = true;
-      this.error = err.error;
+      this.toast.show('Node Deletion Failed!', err.error);
     })
 
     this.getAllNodes();
-   this.reloadPageIfNoError();
   }
 
   updateNode(): void {
@@ -94,16 +92,11 @@ export class ModelAnalysisComponent implements OnInit {
 
     this.pairwiseService.updateNode(node).subscribe((res) => {
       this.nodes = res;
-    }, (err: any) => this.error = err.error);
+    }, (err: any) => {
+      this.toast.show('Error', err.error);
+    });
 
     this.updateNameOfNode = '';
-  }
-
-  reloadPageIfNoError(): void {
-    this.nodes = [];
-    if (this.error === null) {
-      window.location.reload();
-    }
   }
 
   selectFile(event: any) {
@@ -142,7 +135,22 @@ export class ModelAnalysisComponent implements OnInit {
   }
 
   closeToast() {
-    this.onDeleteRoot = false;
+    this.toast.close();
+  }
+
+  onChangeAnalyzeNode(e: any) {
+    console.log(e.target.value);
+    this.analyzeSelectedNode = e.target.value;
+  }
+
+  analyze() {
+    this.pairwiseService.analyze(this.analyzeSelectedNode).subscribe((data) => {
+      console.log(data);
+    },(error) => {
+      console.log(error.error);
+      
+      this.toast.show('Error', error.error);
+    })
   }
 
 }

@@ -16,6 +16,7 @@ export class PairwiseService {
   private baseUrl = 'https://pairwise-backend.herokuapp.com/v1/pairwise';
   private fileUpload = 'https://pairwise-backend.herokuapp.com/v1/upload';
   private fileDownload = 'https://pairwise-backend.herokuapp.com/v1/example-download';
+  private analyzeUrl = 'https://pairwise-backend.herokuapp.com/v1/analyze';
 
   constructor(
     private httpClient: HttpClient
@@ -61,6 +62,11 @@ export class PairwiseService {
   getFiles(): Observable<any> {
     return this.httpClient.get(`${this.fileDownload}`);
   }
+
+  analyze(nodeId: number): Observable<any> {
+    return this.httpClient.get(`${this.analyzeUrl}?nodeId=${nodeId}`);
+  }
+
 }
 
 interface GetResponseNode {

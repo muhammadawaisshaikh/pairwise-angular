@@ -121,13 +121,13 @@
 
                                     <div class="form-group pt-3">
                                         <div class="form-floating">
-                                            <select class="form-select">
-                                                <option *ngFor="let node of nodes " [ngValue]="node.id">{{node.nodeName}}</option>
+                                            <select class="form-select" (change)="onChangeAnalyzeNode($event)">
+                                                <option *ngFor="let node of nodes " [value]="node.id">{{node.nodeName}}</option>
                                             </select>
                                             <label>Parent node name</label>
                                         </div>
 
-                                        <button class="btn btn-info mt-3 w-100">Analysis</button>
+                                        <button class="btn btn-info mt-3 w-100" (click)="analyze()">Analysis</button>
                                     </div>
                                 </div>
                             </div>
@@ -139,8 +139,10 @@
     </div>
 </div>
 
+<app-toast></app-toast>
+
 <!-- // toast on deletion  -->
-<div class="toast bottom-right" role="alert" aria-live="assertive" aria-atomic="true" [ngClass]="{'show': onDeleteRoot}">
+<!-- <div class="toast bottom-right" role="alert" aria-live="assertive" aria-atomic="true" [ngClass]="{'show': onDeleteRoot}">
     <div class="toast-header display-flex justify-content-between">
         <span class="text-danger">Node Deletion Failed!</span>
         <button type="button" class="ml-2 mb-1 close border-0 me-2" data-dismiss="toast" aria-label="Close" (click)="closeToast()">
@@ -150,4 +152,4 @@
     <div class="toast-body">
         {{error}}
     </div>
-</div>
+</div> -->

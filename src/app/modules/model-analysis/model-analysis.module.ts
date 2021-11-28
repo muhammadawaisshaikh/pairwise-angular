@@ -5,10 +5,12 @@ import { FormsModule } from '@angular/forms';
 
 import { ModelAnalysisRoutingModule } from './model-analysis-routing.module';
 import { ModelAnalysisComponent } from './model-analysis.component';
+import { ToastComponent } from 'src/app/shared/toast/toast.component';
 
 @NgModule({
   declarations: [
-    ModelAnalysisComponent
+    ModelAnalysisComponent,
+    ToastComponent
   ],
   imports: [
     CommonModule,
