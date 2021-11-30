@@ -124,10 +124,12 @@ export class ModelAnalysisComponent implements OnInit {
           this.message = err.body;
           this.progress = 0;
           this.currentFile = undefined;
+          this.toast.show('Bad Gateway', this.message);
         }else{
         this.progress = 0;
         this.message = 'File Format is not correct';
         this.currentFile = undefined;
+        this.toast.show('Incorrect Format', this.message);
         }
       });
 
